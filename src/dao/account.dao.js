@@ -1,4 +1,3 @@
-import { Collection } from "mongodb"
 import faker from "faker"
 
 import DAO from "./dao.js"
@@ -38,9 +37,9 @@ export default class AccountDAO extends DAO {
         catch (ex) { this.#LogError(ex, "Get") }
     }
 
-    static async GetCount(estimate = false) {
+    static GetCount(estimate = false) {
         try {
-            return await (estimate) ? account.estimatedDocumentCount() : account.countDocuments()
+            return (estimate) ? account.estimatedDocumentCount() : account.countDocuments()
         }
         catch (ex) { this.#LogError(ex, "GetCount") }
     }

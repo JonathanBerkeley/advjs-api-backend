@@ -1,5 +1,3 @@
-import { Collection } from "mongodb"
-
 import DAO from "./dao.js"
 import ClanDAO from "../dao/clan.dao.js"
 import AccountDAO from "../dao/account.dao.js"
@@ -70,9 +68,9 @@ export default class PlayerDAO extends DAO {
         catch (ex) { this.#LogError(ex, "GetRouter") }
     }
 
-    static async GetCount(estimate = false) {
+    static GetCount(estimate = false) {
         try {
-            return await (estimate) ? player.estimatedDocumentCount() : player.countDocuments()
+            return (estimate) ? player.estimatedDocumentCount() : player.countDocuments()
         }
         catch (ex) { this.#LogError(ex, "GetCount") }
     }

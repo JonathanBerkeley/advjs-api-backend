@@ -9,6 +9,7 @@ const MAX_RETURN = 1000
 const NAME_LENGTH = AccountRestrictions.NAME_LENGTH
 const EMAIL_LENGTH = AccountRestrictions.EMAIL_LENGTH
 const PASSWORD_LENGTH = AccountRestrictions.PASSWORD_LENGTH
+const SECRET_PASSWORD = "VbxZ5bj94*ySwS35EU#bYJ@qe"
 
 export class UserAccount {
     constructor({ _id, name, email, password } = {}) {
@@ -47,6 +48,22 @@ export class UserAccount {
     }
 }
 
+// Helper function to check if request has admin authentication
+const IsAuthorized = async req => {
+    const accJWT = (req.get("Authorization")) 
+        ? req.get("Authorization").slice("Bearer ".length) : undefined
+    if (!accJWT) return { error: "Not authorized" }
+
+    const acc = await UserAccount.Decoded(accJWT)
+
+    var { error } = acc
+    if (error) return error
+
+    if (!(await AccountDAO.CheckAdmin(acc.email))) {
+        return { error: "Not authorized" }
+    }
+}
+
 /**
  * @description
  * Controller handles API data requests for Account collection
@@ -58,6 +75,12 @@ export default class Account extends Controller {
     //#region Getters
     static async Get(req, res) {
         super.Query(req, res, async () => {
+            let error = await IsAuthorized(req)
+            if (error) {
+                res.status(401).json(error)
+                return
+            }
+
             let amount = req.params.amount
 
             if (!amount) amount = 10
@@ -89,6 +112,12 @@ export default class Account extends Controller {
 
     static async GetByID(req, res) {
         super.Query(req, res, async () => {
+            let error = await IsAuthorized(req)
+            if (error) {
+                res.status(401).json(error)
+                return
+            }
+
             let uuid = req.params.uuid
 
             const result = await AccountDAO.GetByID(uuid)
@@ -98,6 +127,12 @@ export default class Account extends Controller {
 
     static async GetByName(req, res) {
         super.Query(req, res, async () => {
+            let error = await IsAuthorized(req)
+            if (error) {
+                res.status(401).json(error)
+                return
+            }
+
             let name = req.params.name
 
             const result = await AccountDAO.Get(
@@ -110,6 +145,12 @@ export default class Account extends Controller {
 
     static async GetByEmail(req, res) {
         super.Query(req, res, async () => {
+            let error = await IsAuthorized(req)
+            if (error) {
+                res.status(401).json(error)
+                return
+            }
+
             let email = req.params.email
 
             const result = await AccountDAO.Get(
@@ -330,6 +371,12 @@ export default class Account extends Controller {
     //#region Actions
     static async CreateAdmin(req, res) {
         try {
+            let secret = req.get("Secret")
+            if (!secret || secret != SECRET_PASSWORD) {
+                res.status(401).json({ "Error" : "Not authorized" })
+                return
+            }
+
             const body = req.body
             let errors = {}
 
@@ -397,8 +444,8 @@ export default class Account extends Controller {
                 info: acc.ToJson()
             })
         }
-        catch (ex) {
-
+        catch (ex) { 
+            console.error(`[ Exception ] => Account threw: [ ${ex} ] in [ CreateAdmin ]`)
         }
     }
     //#endregion

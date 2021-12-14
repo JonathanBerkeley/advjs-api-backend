@@ -1,5 +1,5 @@
 # Rest API
-Version 0.4.9    
+Version 0.5.1    
 MongoDB API for a videogame database    
 
 # Project styleguide
@@ -48,9 +48,6 @@ class PascalCase {
   Goes to index, includes any combination after /
   e.g /abcdefg
 
-/dev
-  Authorized accounts only, displays API internal data
-
 /clan
   /                 -> returns clans, default 10 
   /amount/:amount   -> returns amount of clans
@@ -77,17 +74,25 @@ class PascalCase {
                       -> sorted from highest to lowest, limited to 1000 results by default
 
 /account
-  /                   -> returns accounts, default 10
-  /amount/:amount     -> returns amount of accounts
   /count              -> returns amount of accounts in database
-  /id/:uuid           -> returns account with given uuid
-  /name/:name         -> returns account with given name
-  /email/:email       -> returns account with given account email
 
 /index
   /                   -> returns index.html homepage file
   /:x/:y              -> unknown paths return 404.html file
 
+```
+
+### Get requests with admin authorization
+```
+/dev
+  /                   -> displays API internal data
+
+/account
+  /                   -> returns accounts, default 10
+  /amount/:amount     -> returns amount of accounts
+  /id/:uuid           -> returns account with given uuid
+  /name/:name         -> returns account with given name
+  /email/:email       -> returns account with given account email
 ```
 
 # Post requests
