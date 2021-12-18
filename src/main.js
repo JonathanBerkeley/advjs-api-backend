@@ -10,8 +10,7 @@ import PlayerDAO from "./dao/player.dao.js"
 import AccountDAO from "./dao/account.dao.js"
 
 if (dotenv.config().error) {
-    console.error("[ Fatal ] => ENV file invalid, missing or cannot be read")
-    process.exit(3)
+    console.error("[ Error ] => ENV file invalid, missing or cannot be read")
 }
 
 class Config {
