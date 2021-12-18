@@ -5,6 +5,7 @@
   "main": "src/main.js",
   "type": "module",
   "scripts": {
+    "start": "cross-env nodemon src/main.js",
     "server": "cross-env nodemon src/main.js",
     "v": "npm version patch"
   },
