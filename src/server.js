@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 
 //#region CORs
 // Adapted from https://stackoverflow.com/a/53437992
-const origins = ["http://localhost:3001", "https://mainuser.dev", "http://api.mainuser.dev"]
+const origins = ["http://localhost:3001", "https://mainuser.dev", "http://api.mainuser.dev", "https://mainuser-frontend.herokuapp.com/"]
 
 app.use(cors({
     origin: (origin, callback) => {
