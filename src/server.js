@@ -18,7 +18,7 @@ app.use(express.urlencoded({ extended: true }))
 const origins = ["http://localhost:3001", "https://mainuser.dev", "http://api.mainuser.dev"]
 
 app.use(cors({
-    origin: (origin, callback) => {
+    origin: function(origin, callback) {
         if (!origin) return callback(null, true)
 
         if(origins.indexOf(origin) === -1)
@@ -30,7 +30,6 @@ app.use(cors({
 //#endregion
 
 app.use('/dev', AdminRouter)
-app.use('/clan', ClanRouter)
 app.use('/player', PlayerRouter)
 app.use('/account', AccountRouter)
 app.use('*', IndexRouter)
