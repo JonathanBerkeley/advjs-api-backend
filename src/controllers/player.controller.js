@@ -1,7 +1,7 @@
 import PlayerDAO from "../dao/player.dao.js"
 import Controller from "./controller.js"
 
-const MAX_RETURN = 100
+const MAX_RETURN = 25
 
 /**
  * @description
