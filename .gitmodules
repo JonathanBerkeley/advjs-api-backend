@@ -1,3 +1,0 @@
-[submodule "DB-generator"]
-	path = DB-generator
-	url = https://github.com/JonathanBerkeley/DB-generator.git
