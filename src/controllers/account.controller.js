@@ -49,7 +49,7 @@ export class UserAccount {
 }
 
 // Helper function to check if request has admin authentication
-const IsAuthorized = async req => {
+const IsAuthorized = async (req, id) => {
     const accJWT = (req.get("Authorization")) 
         ? req.get("Authorization").slice("Bearer ".length) : undefined
     if (!accJWT) return { error: "Not authorized" }
@@ -58,6 +58,10 @@ const IsAuthorized = async req => {
 
     var { error } = acc
     if (error) return error
+
+    if (id === acc._id) {
+        return null
+    }
 
     if (!(await AccountDAO.CheckAdmin(acc.email))) {
         return { error: "Not authorized" }
@@ -112,13 +116,12 @@ export default class Account extends Controller {
 
     static async GetByID(req, res) {
         super.Query(req, res, async () => {
-            let error = await IsAuthorized(req)
+            let uuid = req.params.uuid
+            let error = await IsAuthorized(req, uuid)
             if (error) {
                 res.status(401).json(error)
                 return
             }
-
-            let uuid = req.params.uuid
 
             const result = await AccountDAO.GetByID(uuid)
             res.status(200).json({ result })
