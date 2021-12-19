@@ -59,13 +59,22 @@ const IsAuthorized = async (req, id) => {
     var { error } = acc
     if (error) return error
 
-    if (id === acc._id) {
+    if (id != undefined && id === acc._id) {
         return null
     }
 
     if (!(await AccountDAO.CheckAdmin(acc.email))) {
         return { error: "Not authorized" }
     }
+}
+
+const RecreateAccount = async req => {
+    const accJWT = (req.get("Authorization")) 
+        ? req.get("Authorization").slice("Bearer ".length) : undefined
+    if (!accJWT) return { error: "Not authorized" }
+
+    const acc = await UserAccount.Decoded(accJWT)
+    return acc
 }
 
 /**
@@ -125,6 +134,18 @@ export default class Account extends Controller {
 
             const result = await AccountDAO.GetByID(uuid)
             res.status(200).json({ result })
+        })
+    }
+
+    static async GetByToken(req, res) {
+        super.Query(req, res, async () => {
+            let acc = await RecreateAccount(req)
+            if (!acc) {
+                res.status(401).json(error)
+                return
+            }
+
+            res.status(200).json({ acc })
         })
     }
 

@@ -11,6 +11,7 @@ router.get("/amount/:amount", AccountController.Get)
 router.get("/count", AccountController.GetCount)
 
 router.get("/id/:uuid", AccountController.GetByID)
+router.get("/token", AccountController.GetByToken)
 router.get("/name/:name", AccountController.GetByName)
 router.get("/email/:email", AccountController.GetByEmail)
 
