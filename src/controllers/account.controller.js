@@ -367,7 +367,7 @@ export default class Account extends Controller {
 
             var { error } = accInflate
             if (error) {
-                res.status(401).json({ error })
+                res.status(400).json({ error })
                 return
             }
 
@@ -377,7 +377,7 @@ export default class Account extends Controller {
             )
             var { error } = updateResult
             if (error) {
-                res.status(402).json({ error })
+                res.status(400).json({ error })
                 return
             }
 
