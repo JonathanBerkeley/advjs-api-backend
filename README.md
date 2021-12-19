@@ -1,5 +1,5 @@
 # Rest API
-Version 0.5.4-FORK    
+Version 0.5.5-FORK    
 MongoDB API for a videogame database    
 
 # Project styleguide
