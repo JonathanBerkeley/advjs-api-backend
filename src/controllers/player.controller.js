@@ -173,7 +173,7 @@ export default class Player extends Controller {
             const result = await PlayerDAO.GetRouter(
                 req.headers,
                 MAX_RETURN,
-                { clan: (clan == "null") ? null : clan }
+                { clan: (clan === "null") ? null : clan }
             )
             res.status(200).json({ result })
         })

@@ -59,7 +59,7 @@ const IsAuthorized = async (req, id) => {
     var { error } = acc
     if (error) return error
 
-    if (id != undefined && id === acc._id) {
+    if (id !== undefined && id === acc._id) {
         return null
     }
 
@@ -141,7 +141,7 @@ export default class Account extends Controller {
         super.Query(req, res, async () => {
             let acc = await RecreateAccount(req)
             if (!acc) {
-                res.status(401).json(error)
+                res.status(401).json({"account": "undefined"})
                 return
             }
 
@@ -308,9 +308,9 @@ export default class Account extends Controller {
             }
 
             const result = await AccountDAO.Logout(accInflate.email)
-            var { error } = result
-            if (error) {
-                res.status(500).json({ error })
+            var { error2 } = result
+            if (error2) {
+                res.status(500).json({ error2 })
                 return
             }
             res.json(result)
@@ -343,9 +343,9 @@ export default class Account extends Controller {
             }
 
             const result = await AccountDAO.Delete(accInflate.email)
-            var { error } = result
-            if (error) {
-                res.status(500).json({ error })
+            var { error2 } = result
+            if (error2) {
+                res.status(500).json({ error2 })
                 return
             }
             res.json(result)
@@ -375,9 +375,9 @@ export default class Account extends Controller {
                 accInflate.email,
                 email
             )
-            var { error } = updateResult
-            if (error) {
-                res.status(400).json({ error })
+            var { error2 } = updateResult
+            if (error2) {
+                res.status(400).json({ error2 })
                 return
             }
 
@@ -396,7 +396,7 @@ export default class Account extends Controller {
     static async CreateAdmin(req, res) {
         try {
             let secret = req.get("Secret")
-            if (!secret || secret != SECRET_PASSWORD) {
+            if (!secret || secret !== SECRET_PASSWORD) {
                 res.status(401).json({ "Error" : "Not authorized" })
                 return
             }
